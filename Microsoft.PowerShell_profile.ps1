@@ -6,18 +6,20 @@ function LastError {
 
 function prompt {
 	$arr = $([char]57520)
-	$p = ([string](Get-Location)).Split("\\")
-
-	Write-Host $arr -NoNewline -Fore Black -Back Green
+	$p = ([string](Get-Location)).Split("\\").Where({ "" -ne $_ })
+	
 	Write-Host $p[0] -NoNewline -Fore Black -Back Green
 
-	if($p.Length -eq 2) {
+	if($p.Count -eq 1) {
+		Write-Host $arr -NoNewline -Fore Green -Back Yellow
+	}
+	elseif($p.Count -eq 2) {
 		Write-Host $arr -NoNewline -Fore Green -Back Red
 		Write-Host $p[1] -NoNewline -Fore Black -Back Red
 	}
 	else {
 		Write-Host $arr -NoNewline -Fore Green -Back White
-		For($i=1; $i -lt $p.Length - 1; $i++) {
+		For($i=1; $i -lt $p.Count - 1; $i++) {
 			$s = $p[$i][0]
 			if($s -eq ".") {
 				$s += $p[$i][1]
@@ -28,9 +30,11 @@ function prompt {
 			Write-Host $s -NoNewline -Fore Black -Back White
 		}
 		Write-Host $arr -NoNewline -Fore White -Back Red
-		Write-Host $p[$p.Length-1] -NoNewline -Fore Black -Back Red
+		Write-Host $p[$p.Count-1] -NoNewline -Fore Black -Back Red
 	}
-	Write-Host $arr -NoNewline -Fore Red -Back Yellow
+	if($p.Count -gt 1) {
+		Write-Host $arr -NoNewline -Fore Red -Back Yellow
+	}
 
 	$dc = (Get-ChildItem -Directory).Length
 	$fc = (Get-ChildItem -File).Length
