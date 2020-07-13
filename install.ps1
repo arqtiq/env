@@ -1,7 +1,6 @@
 ## consts
 
 $fluent_terminal = "https://github.com/felixse/FluentTerminal/releases/download/0.7.1.0/FluentTerminal.Package_0.7.1.0.zip"
-$powerline_fonts = "https://github.com/powerline/fonts.git"
 
 ## deploy
 
@@ -23,9 +22,8 @@ $zip = $tmp + "ft.zip"
 Expand-Archive $zip -Force
 & "$tmp/ft/Install"
 
-# download + install powerline fonts
-git clone $powerline_fonts
-& "$tmp/fonts/install"
+# install font
+
 
 # clean /tmp
 #ri -Force -Recurse ./tmp
