@@ -4,11 +4,39 @@ function LastError {
 	$error[0].Exception.ToString()
 }
 
+function Watch-Path {
+	param (
+		[string] $path="./",
+	    [switch] $recurse,
+	    [string] $filter="*.*"
+    )
+
+	$filewatcher = New-Object System.IO.FileSystemWatcher
+    $filewatcher.Path = $path
+    $filewatcher.Filter = $filter
+    $filewatcher.IncludeSubdirectories = $recurse.IsPresent
+    $filewatcher.EnableRaisingEvents = $true
+
+	$writeaction = {
+		$path = $Event.SourceEventArgs.FullPath
+	    $changeType = $Event.SourceEventArgs.ChangeType
+	    $logline = "$(Get-Date), $changeType, $path"
+	    Write-Host $logline
+	}
+
+	Register-ObjectEvent $filewatcher "Created" -Action $writeaction | Out-Null
+    Register-ObjectEvent $filewatcher "Changed" -Action $writeaction | Out-Null
+    Register-ObjectEvent $filewatcher "Deleted" -Action $writeaction | Out-Null
+    Register-ObjectEvent $filewatcher "Renamed" -Action $writeaction | Out-Null
+    
+    while ($true) {sleep 5}
+}
+
 function prompt {
 	$arr = $([char]57520)
 	$p = ([string](Get-Location)).Split("\\").Where({ "" -ne $_ })
 	
-	Write-Host $p[0] -NoNewline -Fore Black -Back Green
+	#Write-Host $p[0] -NoNewline -Fore Black -Back Green
 
 	if($p.Count -eq 1) {
 		Write-Host $arr -NoNewline -Fore Green -Back Yellow
