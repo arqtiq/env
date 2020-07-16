@@ -34,9 +34,18 @@ function Watch-Path {
 
 function prompt {
 	$arr = $([char]57520)
+	$psv = $ExecutionContext.Host.Version
+
+	Write-Host "$env:USERNAME $([char]61818) $env:COMPUTERNAME" -NoNewline -Fore White -Back DarkBlue
+	Write-Host $arr -NoNewline -Fore DarkBlue -Back DarkGray
+	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore Black -Back DarkGray
+
+	Write-Host $arr -NoNewline -Fore DarkGray -Back Green
+
 	$p = ([string](Get-Location)).Split("\\").Where({ "" -ne $_ })
+	$dropbox = $p.Contains("Dropbox")
 	
-	#Write-Host $p[0] -NoNewline -Fore Black -Back Green
+	Write-Host $p[0] -NoNewline -Fore Black -Back Green
 
 	if($p.Count -eq 1) {
 		Write-Host $arr -NoNewline -Fore Green -Back Yellow
@@ -66,14 +75,17 @@ function prompt {
 
 	$dc = (Get-ChildItem -Directory).Length
 	$fc = (Get-ChildItem -File).Length
+	$dir = if($dropbox) { 61803 } else { 61564 }
+	Write-Host "$([char]$dir) " -NoNewline -Fore Black -Back Yellow
 	Write-Host "$dc" -NoNewline -Fore Black -Back Yellow
 	Write-Host $([char]57521) -NoNewline -Fore Black -Back Yellow
 	Write-Host "$fc" -NoNewline -Fore Black -Back Yellow
 
 	if(Test-Path .git/index) {
 		Write-Host $arr -NoNewline -Fore Yellow -Back Blue
-		Write-Host $([char]57504) -NoNewline -Fore Black -Back Blue
 		$b = (git branch --show-current)
+		$br = if($b -eq "master") {62489} else {62488}
+		Write-Host $([char]$br) -NoNewline -Fore Black -Back Blue		
 		Write-Host " $b" -NoNewline -Fore Black -Back Blue
 		Write-Host $arr -NoNewline -Fore Blue
 		Write-Host $([char]57521) -NoNewline -Fore Blue
@@ -82,6 +94,9 @@ function prompt {
 		Write-Host $arr -NoNewline -Fore Yellow
 		Write-Host $([char]57521) -NoNewline -Fore Yellow
 	}
+
+	Write-Host ""
+	Write-Host $([char]62601) -NoNewline -Fore DarkBlue
 
   	return " "
 }
