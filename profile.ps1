@@ -1,4 +1,4 @@
-New-Alias grep finstr
+New-Alias grep findstr
 
 function LastError {
 	$error[0].Exception.ToString()
