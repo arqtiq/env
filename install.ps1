@@ -22,8 +22,12 @@ $zip = $tmp + "ft.zip"
 Expand-Archive $zip -Force
 & "$tmp/ft/Install"
 
-# install font
+# install PS profile
+md ~/Documents/WindowsPowerShell -ErrorAction SilentlyContinue
+Copy-Item profile.ps1 ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1
 
+# install font
+& '.\Fira Code NF.otf'
 
 # clean /tmp
 #ri -Force -Recurse ./tmp
