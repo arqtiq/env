@@ -38,7 +38,8 @@ function prompt {
 
 	Write-Host "$env:USERNAME $([char]61818) $env:COMPUTERNAME" -NoNewline -Fore White -Back DarkBlue
 	Write-Host $arr -NoNewline -Fore DarkBlue -Back DarkGray
-	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore Black -Back DarkGray
+
+	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore Gray -Back DarkGray
 
 	Write-Host $arr -NoNewline -Fore DarkGray -Back Green
 
