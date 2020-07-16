@@ -57,7 +57,7 @@ function prompt {
 	else {
 		Write-Host $arr -NoNewline -Fore Green -Back White
 		For($i=1; $i -lt $p.Count - 1; $i++) {
-			$s = $p[$i][0]
+			$s = $p[$i].SubString(0, [math]::min(2, $p[$i].Length))
 			if($s -eq ".") {
 				$s += $p[$i][1]
 			}
@@ -96,7 +96,8 @@ function prompt {
 	}
 
 	Write-Host ""
-	Write-Host $([char]62601) -NoNewline -Fore DarkBlue
+	Write-Host "$([char]62601) " -NoNewline -Back DarkBlue -Fore White
+	Write-Host $arr -NoNewline -Fore DarkBlue
 
   	return " "
 }
