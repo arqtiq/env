@@ -4,6 +4,12 @@ function LastError {
 	$error[0].Exception.ToString()
 }
 
+function Unicode-Char {
+	param ([string] $id)
+	$i = [convert]::toint32($id, 16)
+	Write-Host $([char]$i)
+}
+
 function Watch-Path {
 	param (
 		[string] $path="./",
@@ -69,6 +75,10 @@ function prompt {
 		}
 		Write-Host $arr -NoNewline -Fore White -Back Red
 		Write-Host $p[$p.Count-1] -NoNewline -Fore Black -Back Red
+
+		if ($env:VIRTUAL_ENV) {
+			Write-Host "$([char]57909) " -NoNewline -Fore Black -Back Red
+		}
 	}
 	if($p.Count -gt 1) {
 		Write-Host $arr -NoNewline -Fore Red -Back Yellow
@@ -85,6 +95,12 @@ function prompt {
 	if(Test-Path .git/index) {
 		Write-Host $arr -NoNewline -Fore Yellow -Back Blue
 		$b = (git branch --show-current)
+		$o = (git config --get remote.origin.url)
+		$or = 61907
+		if ($o.Contains("github")) {
+			$or = 63395
+		}
+		Write-Host "$([char]$or) " -NoNewline -Fore Black -Back Blue	
 		$br = if($b -eq "master") {62489} else {62488}
 		Write-Host $([char]$br) -NoNewline -Fore Black -Back Blue		
 		Write-Host " $b" -NoNewline -Fore Black -Back Blue
