@@ -1,3 +1,5 @@
+$git_installed = (Get-Command -ErrorAction SilentlyContinue git) -ne $null
+
 New-Alias grep findstr
 
 function LastError {
@@ -92,24 +94,27 @@ function prompt {
 	Write-Host $([char]57521) -NoNewline -Fore Black -Back Yellow
 	Write-Host "$fc" -NoNewline -Fore Black -Back Yellow
 
-	if(Test-Path .git/index) {
-		Write-Host $arr -NoNewline -Fore Yellow -Back Blue
-		$b = (git branch --show-current)
-		$o = (git config --get remote.origin.url)
-		$or = 61907
-		if ($o.Contains("github")) {
-			$or = 63395
+	if($git_installed) {
+		$in_git = (git rev-parse --is-inside-work-tree 2> $null) -eq "true"
+		if($in_git) {
+			Write-Host $arr -NoNewline -Fore Yellow -Back Blue
+			$b = (git branch --show-current)
+			$o = (git config --get remote.origin.url)
+			$or = 61907
+			if ($o.Contains("github")) {
+				$or = 63395
+			}
+			Write-Host "$([char]$or) " -NoNewline -Fore Black -Back Blue	
+			$br = if($b -eq "master") {62489} else {62488}
+			Write-Host $([char]$br) -NoNewline -Fore Black -Back Blue		
+			Write-Host " $b" -NoNewline -Fore Black -Back Blue
+			Write-Host $arr -NoNewline -Fore Blue
+			Write-Host $([char]57521) -NoNewline -Fore Blue
 		}
-		Write-Host "$([char]$or) " -NoNewline -Fore Black -Back Blue	
-		$br = if($b -eq "master") {62489} else {62488}
-		Write-Host $([char]$br) -NoNewline -Fore Black -Back Blue		
-		Write-Host " $b" -NoNewline -Fore Black -Back Blue
-		Write-Host $arr -NoNewline -Fore Blue
-		Write-Host $([char]57521) -NoNewline -Fore Blue
-	}
-	else {
-		Write-Host $arr -NoNewline -Fore Yellow
-		Write-Host $([char]57521) -NoNewline -Fore Yellow
+		else {
+			Write-Host $arr -NoNewline -Fore Yellow
+			Write-Host $([char]57521) -NoNewline -Fore Yellow
+		}
 	}
 
 	Write-Host ""
