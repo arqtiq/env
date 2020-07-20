@@ -1,10 +1,19 @@
-## consts
+## ARG
+$step = $args[0]
+if($step -eq "help") {
+	Write-Host "terminal > Fluent Terminal"
+	Write-Host "profile > PowerShell Profile"
+	Write-Host "font > FiraCode NF Font"
+}
+elseif($step -eq $null) {
+	$step = "all"
+}
 
+## CONSTS
 $fluent_terminal = "https://github.com/felixse/FluentTerminal/releases/download/0.7.1.0/FluentTerminal.Package_0.7.1.0.zip"
 
-## deploy
-
-# force working dir
+## DEPLOY
+# set working dir
 $cwd = Split-Path $MyInvocation.MyCommand.Path -Parent
 Set-Location $cwd
 
@@ -17,17 +26,23 @@ md $tmp | Out-Null
 cd tmp
 
 # download + install FluentTerminal
-$zip = $tmp + "ft.zip"
-(New-Object System.Net.WebClient).DownloadFile($fluent_terminal, $zip)
-Expand-Archive $zip -Force
-& "$tmp/ft/Install"
+if($step -eq "all" -or $step -eq "terminal") {
+	$zip = $tmp + "ft.zip"
+	(New-Object System.Net.WebClient).DownloadFile($fluent_terminal, $zip)
+	Expand-Archive $zip -Force
+	& "$tmp/ft/Install"
+}
 
 # install PS profile
-md ~/Documents/WindowsPowerShell -ErrorAction SilentlyContinue
-Copy-Item profile.ps1 ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1
+if($step -eq "all" -or $step -eq "profile") {
+	md ~/Documents/WindowsPowerShell -ErrorAction SilentlyContinue
+	Copy-Item profile.ps1 ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1
+}
 
 # install font
-& '.\Fira Code NF.otf'
+if($step -eq "all" -or $step -eq "font") {
+	& '.\Fira Code NF.otf'
+}
 
 # clean /tmp
 #ri -Force -Recurse ./tmp
