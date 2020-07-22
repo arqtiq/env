@@ -12,6 +12,18 @@ function Unicode-Char {
 	Write-Host $([char]$i)
 }
 
+function Add-To-Path {
+	param ([string]$addPath)
+    if (Test-Path $addPath) {
+        $regexAddPath = [regex]::Escape($addPath)
+        $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
+        $env:Path = ($arrPath + $addPath) -join ';'
+    }
+    else {
+        Throw "'$addPath' is not a valid path."
+    }
+}
+
 function Watch-Path {
 	param (
 		[string] $path="./",
