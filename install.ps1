@@ -4,6 +4,7 @@ if($step -eq "help") {
 	Write-Host "terminal > Fluent Terminal"
 	Write-Host "profile > PowerShell Profile"
 	Write-Host "font > FiraCode NF Font"
+    exit
 }
 elseif($step -eq $null) {
 	$step = "all"
@@ -23,7 +24,6 @@ ri ./tmp -Force -Recurse -ErrorAction SilentlyContinue
 
 # create /tmp
 md $tmp | Out-Null
-cd tmp
 
 # download + install FluentTerminal
 if($step -eq "all" -or $step -eq "terminal") {
@@ -46,6 +46,3 @@ if($step -eq "all" -or $step -eq "font") {
 
 # clean /tmp
 #ri -Force -Recurse ./tmp
-
-# back to working dir
-Set-Location $cwd
