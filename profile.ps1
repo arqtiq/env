@@ -93,6 +93,9 @@ function prompt {
 		if ($env:VIRTUAL_ENV) {
 			Write-Host "$([char]57909) " -NoNewline -Fore Black -Back Red
 		}
+		if ((Test-Path ./.vs/) -or (Test-Path ./.vscode/)) {
+			Write-Host "$([char]59148) " -NoNewline -Fore Black -Back Red
+		}	
 	}
 	if($p.Count -gt 1) {
 		Write-Host $arr -NoNewline -Fore Red -Back Yellow
