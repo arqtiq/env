@@ -9,7 +9,7 @@ function LastError {
 function Unicode-Char {
 	param ([string] $id)
 	$i = [convert]::toint32($id, 16)
-	Write-Host $([char]$i)
+	Write-Host "$([char]$i) - $i"
 }
 
 function Add-To-Path {
