@@ -36,6 +36,11 @@ if($step -eq "all" -or $step -eq "terminal") {
 # install PS profile
 if($step -eq "all" -or $step -eq "profile") {
 	md ~/Documents/WindowsPowerShell -ErrorAction SilentlyContinue
+	$target = "~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
+	# backup
+	if(Test-Path $target) {
+		Copy-Item $target ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile_backup.ps1
+	}
 	Copy-Item profile.ps1 ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1
 }
 
