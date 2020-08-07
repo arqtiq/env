@@ -6,6 +6,10 @@ function LastError {
 	$error[0].Exception.ToString()
 }
 
+function List-Env {
+	gci env:*
+}
+
 function Unicode-Char {
 	param ([string] $id)
 	$i = [convert]::toint32($id, 16)
