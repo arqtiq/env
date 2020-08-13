@@ -60,12 +60,19 @@ function prompt {
 	$arr = $([char]57520)
 	$psv = $ExecutionContext.Host.Version
 
+ 	
+	$h = [string](Get-Date -Format "HH:mm")
+	Write-Host "$h" -NoNewLine -Fore Black -Back White
+	Write-Host $([char]57532) -NoNewLine -Fore White
+	Write-Host $([char]57530) -NoNewLine -Fore DarkBlue
+
+	Write-Host " " -NoNewLine
 	Write-Host "$env:USERNAME $([char]61818) $env:COMPUTERNAME" -NoNewline -Fore White -Back DarkBlue
-	Write-Host $arr -NoNewline -Fore DarkBlue -Back DarkGray
+	Write-Host $arr -NoNewline -Fore DarkBlue -Back Blue
 
-	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore Gray -Back DarkGray
+	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore White -Back Blue
 
-	Write-Host $arr -NoNewline -Fore DarkGray -Back Green
+	Write-Host $arr -NoNewline -Fore Blue -Back Green
 
 	$p = ([string](Get-Location)).Split("\\").Where({ "" -ne $_ })
 	$dropbox = $p.Contains("Dropbox")
@@ -98,7 +105,7 @@ function prompt {
 			Write-Host "$([char]57909) " -NoNewline -Fore Black -Back Red
 		}
 		if ((Test-Path ./.vs/) -or (Test-Path ./.vscode/)) {
-			Write-Host "$([char]59148) " -NoNewline -Fore Black -Back Red
+			Write-Host " $([char]59148) " -NoNewline -Fore Black -Back Red
 		}	
 	}
 	if($p.Count -gt 1) {
@@ -137,8 +144,8 @@ function prompt {
 	}
 
 	Write-Host ""
-	Write-Host "$([char]62601) " -NoNewline -Back DarkBlue -Fore White
-	Write-Host $arr -NoNewline -Fore DarkBlue
+	Write-Host "$([char]62601) " -NoNewline -Fore White
+	
 
   	return " "
 }
