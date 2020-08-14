@@ -1,5 +1,5 @@
 ## ARG
-$step = $args[0]
+$step = $args[0].Trim("-")
 if($step -eq "help") {
 	Write-Host "terminal > Fluent Terminal"
 	Write-Host "profile > PowerShell Profile"
