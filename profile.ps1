@@ -10,6 +10,29 @@ function List-Env {
 	gci env:*
 }
 
+$global:_cpy = $null
+function copyfile {
+	param([string] $path)
+	$global:_cpy = Resolve-Path $path
+
+}
+function pastefile {
+	param(
+		[switch] $f,
+		[string] $n = $null
+	)
+	if ($global:_cpy -eq $null) {
+		Write-Host "No file to paste" -Fore Red
+		return
+	}
+	$dest = [string](Get-Location)
+	if (!($n -eq $null)) {
+		$dest += "\" + $n
+	}
+
+	Copy-Item -Path $global:_cpy -Destination $dest
+}
+
 function Unicode-Char {
 	param ([string] $id)
 	$i = [convert]::toint32($id, 16)
