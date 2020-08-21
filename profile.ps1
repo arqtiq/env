@@ -10,6 +10,12 @@ function List-Env {
 	gci env:*
 }
 
+function Unicode-Char {
+	param ([string] $id)
+	$i = [convert]::toint32($id, 16)
+	Write-Host "$([char]$i) - $i"
+}
+
 $global:_cpy = $null
 function copyfile {
 	param([string] $path)
@@ -31,12 +37,6 @@ function pastefile {
 	}
 
 	Copy-Item -Path $global:_cpy -Destination $dest
-}
-
-function Unicode-Char {
-	param ([string] $id)
-	$i = [convert]::toint32($id, 16)
-	Write-Host "$([char]$i) - $i"
 }
 
 function Add-To-Path {
@@ -83,34 +83,39 @@ function prompt {
 	$arr = $([char]57520)
 	$psv = $ExecutionContext.Host.Version
 
- 	
+	$cwd = [string](Get-Location) -replace [Regex]::Escape($HOME), "~"
+	$p = $cwd.Split("\\").Where({ "" -ne $_ })
+
+	# time
 	$h = [string](Get-Date -Format "HH:mm")
 	Write-Host "$h" -NoNewLine -Fore Black -Back White
 	Write-Host $([char]57532) -NoNewLine -Fore White
 	Write-Host $([char]57530) -NoNewLine -Fore DarkBlue
 
+	# host
 	Write-Host " " -NoNewLine
 	Write-Host "$env:USERNAME $([char]61818) $env:COMPUTERNAME" -NoNewline -Fore White -Back DarkBlue
 	Write-Host $arr -NoNewline -Fore DarkBlue -Back Blue
 
 	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore White -Back Blue
 
-	Write-Host $arr -NoNewline -Fore Blue -Back Green
+	$dc = if($p[0] -eq "~") {"White"} else {"Green"}
+	Write-Host $arr -NoNewline -Fore Blue -Back $dc
 
-	$p = ([string](Get-Location)).Split("\\").Where({ "" -ne $_ })
+	# cwd
 	$dropbox = $p.Contains("Dropbox")
 	
-	Write-Host $p[0] -NoNewline -Fore Black -Back Green
+	Write-Host $p[0] -NoNewline -Fore Black -Back $dc
 
 	if($p.Count -eq 1) {
-		Write-Host $arr -NoNewline -Fore Green -Back Yellow
+		Write-Host $arr -NoNewline -Fore $dc -Back Yellow
 	}
 	elseif($p.Count -eq 2) {
-		Write-Host $arr -NoNewline -Fore Green -Back Red
+		Write-Host $arr -NoNewline -Fore $dc -Back Red
 		Write-Host $p[1] -NoNewline -Fore Black -Back Red
 	}
 	else {
-		Write-Host $arr -NoNewline -Fore Green -Back White
+		Write-Host $arr -NoNewline -Fore $dc -Back White
 		For($i=1; $i -lt $p.Count - 1; $i++) {
 			$s = $p[$i].SubString(0, [math]::min(2, $p[$i].Length))
 			if($s -eq ".") {
@@ -135,6 +140,7 @@ function prompt {
 		Write-Host $arr -NoNewline -Fore Red -Back Yellow
 	}
 
+	# dirs / file
 	$dc = (Get-ChildItem -Directory).Length
 	$fc = (Get-ChildItem -File).Length
 	$dir = if($dropbox) { 61803 } else { 61564 }
@@ -143,6 +149,7 @@ function prompt {
 	Write-Host $([char]57521) -NoNewline -Fore Black -Back Yellow
 	Write-Host "$fc" -NoNewline -Fore Black -Back Yellow
 
+	# git
 	if($git_installed) {
 		$in_git = (git rev-parse --is-inside-work-tree 2> $null) -eq "true"
 		if($in_git) {
@@ -157,6 +164,7 @@ function prompt {
 			$br = if($b -eq "master") {62489} else {62488}
 			Write-Host $([char]$br) -NoNewline -Fore Black -Back Blue		
 			Write-Host " $b" -NoNewline -Fore Black -Back Blue
+			# posh
 			Write-Host $arr -NoNewline -Fore Blue
 			Write-Host $([char]57521) -NoNewline -Fore Blue
 		}
@@ -166,6 +174,7 @@ function prompt {
 		}
 	}
 
+	# prompt line
 	Write-Host ""
 	Write-Host "$([char]62601) " -NoNewline -Fore White
 	
