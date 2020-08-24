@@ -154,7 +154,8 @@ function prompt {
 		$in_git = (git rev-parse --is-inside-work-tree 2> $null) -eq "true"
 		if($in_git) {
 			Write-Host $arr -NoNewline -Fore Yellow -Back Blue
-			$b = (git branch --show-current)
+			$sta = (git status -sb)
+			$b = $sta.Trim('#')
 			$o = (git config --get remote.origin.url)
 			$or = 61907
 			if ($o.Contains("github")) {
@@ -164,7 +165,7 @@ function prompt {
 			$br = if($b -eq "master") {62489} else {62488}
 			Write-Host $([char]$br) -NoNewline -Fore Black -Back Blue		
 			Write-Host " $b" -NoNewline -Fore Black -Back Blue
-			# posh
+
 			Write-Host $arr -NoNewline -Fore Blue
 			Write-Host $([char]57521) -NoNewline -Fore Blue
 		}
