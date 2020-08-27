@@ -2,13 +2,19 @@ $git_installed = (Get-Command -ErrorAction SilentlyContinue git) -ne $null
 
 New-Alias grep findstr
 
-function LastError {
-	$error[0].Exception.ToString()
+function gs { git status -sb }
+function gb { git branch $args }
+function gco { git checkout $args }
+Remove-Item Alias:gc -Force
+function gc {
+	git checkout $args
+	git fetch > $null
 }
+Remove-Item Alias:gcm -Force
+function gcm { gc master }
 
-function List-Env {
-	gci env:*
-}
+function Last-Error { $error[0].Exception.ToString() }
+function List-Env {	gci env:* }
 
 function Unicode-Char {
 	param ([string] $id)
@@ -16,10 +22,10 @@ function Unicode-Char {
 	Write-Host "$([char]$i) - $i"
 }
 
-$global:_cpy = $null
+$_cpy = $null
 function copyfile {
 	param([string] $path)
-	$global:_cpy = Resolve-Path $path
+	$_cpy = Resolve-Path $path
 
 }
 function pastefile {
@@ -27,7 +33,7 @@ function pastefile {
 		[switch] $f,
 		[string] $n = $null
 	)
-	if ($global:_cpy -eq $null) {
+	if ($_cpy -eq $null) {
 		Write-Host "No file to paste" -Fore Red
 		return
 	}
@@ -85,6 +91,7 @@ function prompt {
 
 	$cwd = [string](Get-Location) -replace [Regex]::Escape($HOME), "~"
 	$p = $cwd.Split("\\").Where({ "" -ne $_ })
+	$hs = $p[0] -eq "~"
 
 	# time
 	$h = [string](Get-Date -Format "HH:mm")
@@ -99,7 +106,7 @@ function prompt {
 
 	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore White -Back Blue
 
-	$dc = if($p[0] -eq "~") {"White"} else {"Green"}
+	$dc = if($hs) {"White"} else {"Green"}
 	Write-Host $arr -NoNewline -Fore Blue -Back $dc
 
 	# cwd
@@ -154,17 +161,27 @@ function prompt {
 		$in_git = (git rev-parse --is-inside-work-tree 2> $null) -eq "true"
 		if($in_git) {
 			Write-Host $arr -NoNewline -Fore Yellow -Back Blue
-			$sta = (git status -sb)
-			$b = $sta.Trim('#')
+			# git type
 			$o = (git config --get remote.origin.url)
-			$or = 61907
-			if ($o.Contains("github")) {
-				$or = 63395
+			$or = if($o.Contains("github")) { 63395 } else { 61907 }
+			Write-Host "$([char]$or) " -NoNewline -Fore Black -Back Blue
+			# state
+			$sta = (git status --porcelain -b)
+			$changes = $sta -is [array]
+			$header = if($changes) {$sta[0]} else {$sta}
+			$rgx = "(?<branch>\w+)\.\.\.(?<remote>[\/\w]+)(?: \[(?:ahead (?<ahead>[0-9]+))?(?:, )?(?:behind (?<behind>[0-9]+))?)?"
+			$match = [Regex]::Match($header, $rgx)
+			$b = $match.groups['branch'].Value
+			$sl = $($match.groups['ahead'].success.tostring()[0] + $match.groups['behind'].success.tostring()[0])
+			$s = switch ($sl) {
+				"FF" { $([char]8801) }
+				"TT" { $match.groups['ahead'].value + $([char]8597) + $match.groups['behind'].value }
+				"TF" { $([char]8593) + $match.groups['ahead'].value }
+				"FT" { $([char]8595) + $match.groups['behind'].value }
 			}
-			Write-Host "$([char]$or) " -NoNewline -Fore Black -Back Blue	
 			$br = if($b -eq "master") {62489} else {62488}
 			Write-Host $([char]$br) -NoNewline -Fore Black -Back Blue		
-			Write-Host " $b" -NoNewline -Fore Black -Back Blue
+			Write-Host " $b $s" -NoNewline -Fore Black -Back Blue
 
 			Write-Host $arr -NoNewline -Fore Blue
 			Write-Host $([char]57521) -NoNewline -Fore Blue
@@ -178,7 +195,5 @@ function prompt {
 	# prompt line
 	Write-Host ""
 	Write-Host "$([char]62601) " -NoNewline -Fore White
-	
-
   	return " "
 }
