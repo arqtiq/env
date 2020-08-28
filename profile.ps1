@@ -10,6 +10,11 @@ function gc {
 	git checkout $args
 	git fetch > $null
 }
+Remove-Item Alias:gcb -Force
+function gcb {
+	git checkout -b $args
+    git push --set-upstream origin $args
+}
 Remove-Item Alias:gcm -Force
 function gcm { gc master }
 
@@ -22,10 +27,10 @@ function Unicode-Char {
 	Write-Host "$([char]$i) - $i"
 }
 
-$_cpy = $null
+$global:_cpy = $null
 function copyfile {
 	param([string] $path)
-	$_cpy = Resolve-Path $path
+	$global:_cpy = Resolve-Path $path
 
 }
 function pastefile {
@@ -33,7 +38,7 @@ function pastefile {
 		[switch] $f,
 		[string] $n = $null
 	)
-	if ($_cpy -eq $null) {
+	if ($global:_cpy -eq $null) {
 		Write-Host "No file to paste" -Fore Red
 		return
 	}
@@ -169,7 +174,7 @@ function prompt {
 			$sta = (git status --porcelain -b)
 			$changes = $sta -is [array]
 			$header = if($changes) {$sta[0]} else {$sta}
-			$rgx = "(?<branch>\w+)\.\.\.(?<remote>[\/\w]+)(?: \[(?:ahead (?<ahead>[0-9]+))?(?:, )?(?:behind (?<behind>[0-9]+))?)?"
+			$rgx = "(?:#+) (?<branch>\w+)(?:\.{3})?(?<remote>[\/\w]+)(?: \[(?:ahead (?<ahead>[0-9]+))?(?:, )?(?:behind (?<behind>[0-9]+))?)?"
 			$match = [Regex]::Match($header, $rgx)
 			$b = $match.groups['branch'].Value
 			$sl = $($match.groups['ahead'].success.tostring()[0] + $match.groups['behind'].success.tostring()[0])
