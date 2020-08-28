@@ -11,7 +11,7 @@ elseif($step -eq $null) {
 }
 
 ## CONSTS
-$fluent_terminal = "https://github.com/felixse/FluentTerminal/releases/download/0.7.1.0/FluentTerminal.Package_0.7.1.0.zip"
+$fluent_terminal = "https://github.com/felixse/FluentTerminal/releases/download/0.7.2.0/FluentTerminal.Package_0.7.2.0_Test.zip"
 
 ## DEPLOY
 # set working dir
@@ -29,8 +29,8 @@ md $tmp | Out-Null
 if($step -eq "all" -or $step -eq "terminal") {
 	$zip = $tmp + "ft.zip"
 	(New-Object System.Net.WebClient).DownloadFile($fluent_terminal, $zip)
-	Expand-Archive $zip -Force
-	& "$tmp/ft/Install"
+	Expand-Archive $zip -Force -DestinationPath $tmp
+	& "$tmp/Install.ps1"
 }
 
 # install PS profile
