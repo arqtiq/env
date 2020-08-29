@@ -35,13 +35,17 @@ if($step -eq "all" -or $step -eq "terminal") {
 
 # install PS profile
 if($step -eq "all" -or $step -eq "profile") {
-	md ~/Documents/WindowsPowerShell -ErrorAction SilentlyContinue
-	$target = "~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
-	# backup
-	if(Test-Path $target) {
-		Copy-Item $target ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile_backup.ps1
+	$target = "~/Documents/WindowsPowerShell/"
+	md $target -ErrorAction SilentlyContinue
+	Get-ChildItem ./ps -Filter *.ps1 | ForEach-Object {
+		$t = $target + $_.Name
+		if ($_.BaseName -eq "custom") {
+			if(Test-Path $t) {
+				return
+			}
+		}
+		Copy-Item -Path $_.FullName -Destination $t
 	}
-	Copy-Item profile.ps1 ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1
 }
 
 # install font
