@@ -39,7 +39,7 @@ if($step -eq "all" -or $step -eq "profile") {
 	md $target -ErrorAction SilentlyContinue
 	Get-ChildItem ./ps -Filter *.ps1 | ForEach-Object {
 		$t = $target + $_.Name
-		if ($_.BaseName -eq "custom") {
+		if ($_.BaseName -eq "user") {
 			if(Test-Path $t) {
 				return
 			}

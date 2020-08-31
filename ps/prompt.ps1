@@ -7,12 +7,12 @@ function prompt {
 	$h = [string](Get-Date -Format "HH:mm")
 	Write-Host "$h" -NoNewLine -Fore $CO_PR_HOUR_FORE -Back $CO_PR_HOUR_BACK
 	Write-Host $IC_TRIANGLE_TL -NoNewLine -Fore $CO_PR_HOUR_BACK
-	Write-Host $IC_TRIANGLE_BR -NoNewLine -Fore DarkBlue
 
 	# host
+	Write-Host $IC_TRIANGLE_BR -NoNewLine -Fore $CO_PR_HOST_BACK
 	Write-Host " " -NoNewLine
 	Write-Host "$env:USERNAME $IC_WIN_LOGO $env:COMPUTERNAME" -NoNewline -Fore White -Back DarkBlue
-	Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore DarkBlue -Back Blue
+	Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore $CO_PR_HOST_BACK -Back Blue
 
     $psv = $ExecutionContext.Host.Version
 	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore White -Back Blue

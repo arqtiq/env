@@ -22,10 +22,3 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/in
 
 get disk space \
 https://stackoverflow.com/questions/12159341/how-to-get-disk-capacity-and-free-space-of-remote-computer
-
-poshgit status \
-https://github.com/dahlbyk/posh-git#git-status-summary-information
-
-## master...origin/master \
- M README.md      <- unstaged \
-M  profile.ps1    <- staged

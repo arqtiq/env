@@ -27,7 +27,7 @@ $IC_GIT_BRANCHED            =   $([char]62488)
 
 $CO_PR_HOUR_BACK            =   "White"
 $CO_PR_HOUR_FORE            =   "Black"
-$CO_PR_HOST_HOUR_BACK       =   "DarkBlue"
-$CO_PR_HOST_HOUR_FORE       =   "White"
+$CO_PR_HOST_BACK       		=   "DarkBlue"
+$CO_PR_HOST_FORE       		=   "White"
 $CO_PR_GIT_BACK             =   "Blue"
 $CO_PR_GIT_FORE             =   "Black"

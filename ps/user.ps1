@@ -1,0 +1,3 @@
+# User defined vars, aliases, funcs ...
+# Won't be overwrite on profile install if exists
+
