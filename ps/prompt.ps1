@@ -1,24 +1,38 @@
+$_pr_time = 1
+$_pr_host = 2
+$_pr_cwd = 2
+$_pr_git = 2
+
 function prompt {
 	$cwd = [string](Get-Location) -replace [Regex]::Escape($HOME), "~"
 	$p = $cwd.Split("\\").Where({ "" -ne $_ })
 	$hs = $p[0] -eq "~"
 
 	# time
-	$h = [string](Get-Date -Format "HH:mm")
-	Write-Host "$h" -NoNewLine -Fore $CO_PR_HOUR_FORE -Back $CO_PR_HOUR_BACK
-	Write-Host $IC_TRIANGLE_TL -NoNewLine -Fore $CO_PR_HOUR_BACK
+	if ($_pr_time) {
+		$h = [string](Get-Date -Format "HH:mm")
+		Write-Host "$h" -NoNewLine -Fore $CO_PR_HOUR_FORE -Back $CO_PR_HOUR_BACK
+		Write-Host $IC_TRIANGLE_TL -NoNewLine -Fore $CO_PR_HOUR_BACK
+	}
 
 	# host
-	Write-Host $IC_TRIANGLE_BR -NoNewLine -Fore $CO_PR_HOST_BACK
-	Write-Host " " -NoNewLine
-	Write-Host "$env:USERNAME $IC_WIN_LOGO $env:COMPUTERNAME" -NoNewline -Fore White -Back DarkBlue
-	Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore $CO_PR_HOST_BACK -Back Blue
+	if ($_pr_host) {
+		Write-Host "$IC_TRIANGLE_BR " -NoNewLine -Fore $CO_PR_HOST_BACK
+		Write-Host "$env:USERNAME $IC_WIN_LOGO $env:COMPUTERNAME" -NoNewline -Fore $CO_PR_HOST_FORE -Back $CO_PR_HOST_BACK
 
-    $psv = $ExecutionContext.Host.Version
-	Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore White -Back Blue
+		if ($_pr_host -eq 2) {
+			Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore $CO_PR_HOST_BACK -Back $CO_PR_HOST2_BACK
+			$psv = $ExecutionContext.Host.Version
+			Write-Host "PS$($psv.Major).$($psv.Minor)" -NoNewline -Fore $CO_PR_HOST_FORE -Back $CO_PR_HOST2_BACK
+			Write-Host $IC_TRIANGLE_TL -NoNewLine -Fore $CO_PR_HOST2_BACK
+		}
+		else {
+			Write-Host $IC_TRIANGLE_TL -NoNewLine -Fore $CO_PR_HOST_BACK
+		}
+	}
 
 	$dc = if($hs) {"White"} else {"Green"}
-	Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore Blue -Back $dc
+	Write-Host "$IC_TRIANGLE_BR " -NoNewLine -Fore $dc
 
 	# cwd
 	$dropbox = $p.Contains("Dropbox")
@@ -71,7 +85,7 @@ function prompt {
 	if($git_installed) {
 		if(in_git_repo) {
             Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore Yellow -Back Blue
-            write_git_status
+            write_git_status $_pr_git
             Write-Host "$IC_ARROW_FILL_RIGHT$IC_ARROW_RIGHT" -NoNewline -Fore $CO_PR_GIT_BACK
 		}
 		else {
@@ -84,4 +98,24 @@ function prompt {
 	Write-Host ""
 	Write-Host "$IC_TERMINAL_LOGO " -NoNewline -Fore White
   	return " "
+}
+
+function Set-Prompt-Time {
+    param ([int]$level)
+    $global:_pr_time = $level
+}
+
+function Set-Prompt-Host {
+    param ([int]$level)
+    $global:_pr_host = $level
+}
+
+function Set-Prompt-Cwd {
+    param ([int]$level)
+    $global:_pr_cwd = $level
+}
+
+function Set-Prompt-Git {
+    param ([int]$level)
+    $global:_pr_git = $level
 }

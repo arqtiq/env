@@ -6,6 +6,10 @@ function in_git_repo {
 }
 
 function write_git_status {
+    param ([int]$level)
+    if ($level -eq 0) {
+        return
+    }
     $o = (git config --get remote.origin.url)
     $or = if($o.Contains("github")) { $IC_GIT_HUB_LOGO } else { $IC_GIT_LOGO }
     $sta = (git status --porcelain -b)
@@ -41,13 +45,18 @@ function write_git_status {
     }
 }
 
+
+
 function gs { git status -sb }
+function gf { git fetch }
+Remove-Item Alias:gp -Force
+function gp { git pull }
 function gb { git branch $args }
 function gco { git checkout $args }
 Remove-Item Alias:gc -Force
 function gc {
 	git checkout $args
-	git fetch > $null
+	gf > $null
 }
 Remove-Item Alias:gcb -Force
 function gcb {
@@ -56,3 +65,5 @@ function gcb {
 }
 Remove-Item Alias:gcm -Force
 function gcm { gc master }
+function ga { git add $args }
+function gaa { ga -A }

@@ -3,6 +3,10 @@
 . $PSScriptRoot/prompt.ps1
 . $PSScriptRoot/custom.ps1
 
+Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
+
 New-Alias grep findstr
 
 function Last-Error { $error[0].Exception.ToString() }
@@ -17,11 +21,11 @@ function Unicode-Char {
 function forest {
 	param ([int] $c=20)
 	for($i=0; $i -lt $c; $i+=1) {
-		Write-Host "$([char]61883) " -NoNewLine -Fore Green
+		Write-Host "$([char]61883) " -NoNewLine -Fore DarkGreen
 	}
 }
 
-$global:_cpy = $null
+$_cpy = $null
 function copyfile {
 	param([string] $path)
 	$global:_cpy = Resolve-Path $path
