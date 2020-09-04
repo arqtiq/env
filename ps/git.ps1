@@ -12,7 +12,7 @@ function write_git_status {
     }
     $o = (git config --get remote.origin.url)
     $or = if($o.Contains("github")) { $IC_GIT_HUB_LOGO } else { $IC_GIT_LOGO }
-    $sta = (git status --porcelain -b)
+    $sta = (git status --porcelain -b -u)
     $changes = $sta -is [array]
     $header = if($changes) {$sta[0]} else {$sta}
     $match = [Regex]::Match($header, $git_status_regex)
