@@ -59,14 +59,14 @@ function prompt {
 			Write-Host $s -NoNewline -Fore Black -Back White
 		}
 		Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore White -Back Red
-		Write-Host $p[$p.Count-1] -NoNewline -Fore Black -Back Red
+		Write-Host $p[$p.Count-1] -NoNewline -Fore White -Back Red
 
 		if ($env:VIRTUAL_ENV) {
-			Write-Host "$IC_PY_LOGO " -NoNewline -Fore Black -Back Red
+			Write-Host "$IC_PY_LOGO " -NoNewline -Fore White -Back Red
 		}
 		if ((Test-Path ./.vs/) -or (Test-Path ./.vscode/)) {
-			Write-Host " $IC_VS_LOGO " -NoNewline -Fore Black -Back Red
-		}	
+			Write-Host " $IC_VS_LOGO " -NoNewline -Fore White -Back Red
+		}
 	}
 	if($p.Count -gt 1) {
 		Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore Red -Back Yellow

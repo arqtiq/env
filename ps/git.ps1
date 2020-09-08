@@ -48,6 +48,7 @@ function write_git_status {
 
 
 function gs { git status -sb }
+function gsu { git status -sb -u }
 function gf { git fetch }
 Remove-Item Alias:gp -Force
 function gp { git pull }
@@ -57,6 +58,10 @@ Remove-Item Alias:gc -Force
 function gc {
 	git checkout $args
 	gf > $null
+}
+function gcom {
+    param([string] $msg)
+    git commit -m $msg
 }
 Remove-Item Alias:gcb -Force
 function gcb {
