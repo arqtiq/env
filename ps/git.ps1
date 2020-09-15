@@ -60,8 +60,8 @@ function gc {
 	gf > $null
 }
 function gcom {
-    param([string] $msg)
-    git commit -m $msg
+    $msg = $args -join "`n"
+    git commit -m $(echo $msg)
 }
 Remove-Item Alias:gcb -Force
 function gcb {
