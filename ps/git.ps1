@@ -56,8 +56,8 @@ function gb { git branch $args }
 function gco { git checkout $args }
 Remove-Item Alias:gc -Force
 function gc {
-	git checkout $args
-	gf > $null
+    git checkout $args
+    gf > $null
 }
 function gcom {
     $msg = $args -join "`n"
@@ -65,8 +65,11 @@ function gcom {
 }
 Remove-Item Alias:gcb -Force
 function gcb {
-	git checkout -b $args
-    git push --set-upstream origin $args
+    param([switch] $p)
+    git checkout -b $args
+    if ($p) {
+        git push --set-upstream origin $args
+    }
 }
 Remove-Item Alias:gcm -Force
 function gcm { gc master }
