@@ -20,5 +20,7 @@ install chocolatey \
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072 \
 iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-get disk space \
-https://stackoverflow.com/questions/12159341/how-to-get-disk-capacity-and-free-space-of-remote-computer
+get os/system/disk info \
+Get-CimInstance Win32_OperatingSystem \
+Get-CimInstance Win32_ComputerSystem \
+Get-CimInstance Win32_LogicalDisk
