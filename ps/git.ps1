@@ -75,3 +75,6 @@ Remove-Item Alias:gcm -Force
 function gcm { gc master }
 function ga { git add $args }
 function gaa { ga -A }
+function gr { git reset $args }
+function gst { git stash $args }
+function gstp { git statsh pop }
