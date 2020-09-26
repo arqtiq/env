@@ -1,4 +1,5 @@
 . $PSScriptRoot/consts.ps1
+. $PSScriptRoot/utils.ps1
 . $PSScriptRoot/git.ps1
 . $PSScriptRoot/prompt.ps1
 . $PSScriptRoot/user.ps1
@@ -58,32 +59,4 @@ function Add-To-Path {
     else {
         Throw "'$addPath' is not a valid path."
     }
-}
-
-function Watch-Path {
-	param (
-		[string] $path="./",
-	    [switch] $recurse,
-	    [string] $filter="*.*"
-    )
-
-	$filewatcher = New-Object System.IO.FileSystemWatcher
-    $filewatcher.Path = $path
-    $filewatcher.Filter = $filter
-    $filewatcher.IncludeSubdirectories = $recurse.IsPresent
-    $filewatcher.EnableRaisingEvents = $true
-
-	$writeaction = {
-		$path = $Event.SourceEventArgs.FullPath
-	    $changeType = $Event.SourceEventArgs.ChangeType
-	    $logline = "$(Get-Date), $changeType, $path"
-	    Write-Host $logline
-	}
-
-	Register-ObjectEvent $filewatcher "Created" -Action $writeaction | Out-Null
-    Register-ObjectEvent $filewatcher "Changed" -Action $writeaction | Out-Null
-    Register-ObjectEvent $filewatcher "Deleted" -Action $writeaction | Out-Null
-    Register-ObjectEvent $filewatcher "Renamed" -Action $writeaction | Out-Null
-    
-    while ($true) {sleep 5}
 }
