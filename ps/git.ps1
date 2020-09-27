@@ -78,3 +78,4 @@ function gaa { ga -A }
 function gr { git reset $args }
 function gst { git stash $args }
 function gstp { git statsh pop }
+function gd { git diff $args }
