@@ -37,15 +37,11 @@ if($step -eq "all" -or $step -eq "terminal") {
 if($step -eq "all" -or $step -eq "profile") {
 	$target = "~/Documents/WindowsPowerShell/"
 	md $target -ErrorAction SilentlyContinue
-	Get-ChildItem ./ps -Filter *.ps1 | ForEach-Object {
-		$t = $target + $_.Name
-		if ($_.BaseName -eq "user") {
-			if(Test-Path $t) {
-				return
-			}
-		}
-		Copy-Item -Path $_.FullName -Destination $t
-	}
+
+	$core = $cwd + "/ps/core.ps1"
+	(". " + $core) >> ($target + "Microsoft.PowerShell_profile.ps1")
+	# add vscode profile
+	('. $' + "PSScriptRoot/Microsoft.PowerShell_profile.ps1") >> ($target + "Microsoft.PowerShell_VSCode_profile.ps1")
 }
 
 # install font
