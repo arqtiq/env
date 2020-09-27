@@ -2,6 +2,7 @@
 . $PSScriptRoot/utils.ps1
 . $PSScriptRoot/git.ps1
 . $PSScriptRoot/prompt.ps1
+. $PSScriptRoot/themes.ps1
 . $PSScriptRoot/user.ps1
 
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
