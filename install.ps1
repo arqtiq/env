@@ -1,17 +1,14 @@
 ## ARG
 $step = $args[0].Trim("-")
 if($step -eq "help") {
-	Write-Host "terminal > Fluent Terminal"
 	Write-Host "profile > PowerShell Profile"
 	Write-Host "font > FiraCode NF Font"
+	Write-Host "ext > PowerShell Extensions"
     exit
 }
 elseif($step -eq $null) {
 	$step = "all"
 }
-
-## CONSTS
-$fluent_terminal = "https://github.com/felixse/FluentTerminal/releases/download/0.7.2.0/FluentTerminal.Package_0.7.2.0_Test.zip"
 
 ## DEPLOY
 # set working dir
@@ -21,17 +18,8 @@ Set-Location $cwd
 # make sur /tmp doesnt exists
 $tmp = $cwd + "/tmp/"
 ri ./tmp -Force -Recurse -ErrorAction SilentlyContinue 
-
 # create /tmp
 md $tmp | Out-Null
-
-# download + install FluentTerminal
-if($step -eq "all" -or $step -eq "terminal") {
-	$zip = $tmp + "ft.zip"
-	(New-Object System.Net.WebClient).DownloadFile($fluent_terminal, $zip)
-	Expand-Archive $zip -Force -DestinationPath $tmp
-	& "$tmp/Install.ps1"
-}
 
 # install PS profile
 if($step -eq "all" -or $step -eq "profile") {
@@ -47,6 +35,13 @@ if($step -eq "all" -or $step -eq "profile") {
 # install font
 if($step -eq "all" -or $step -eq "font") {
 	& '.\Fira Code NF.otf'
+}
+
+# install extensions
+if($step -eq "all" -or $step -eq "ext") {
+	if(-not(Get-InstalledModule SQLServer -ErrorAction silentlycontinue)) {
+    	Install-Module PSBookmark -Confirm:$False -Force
+	}
 }
 
 # clean /tmp
