@@ -79,3 +79,8 @@ function gr { git reset $args }
 function gst { git stash $args }
 function gstp { git statsh pop }
 function gd { git diff $args }
+Remove-Item Alias:gl -Force
+function gl {
+	param([int] $l=1)
+	git log ("-"+($l -as [string]))
+}
