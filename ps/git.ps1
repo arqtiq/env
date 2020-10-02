@@ -77,7 +77,7 @@ function ga { git add $args }
 function gaa { ga -A }
 function gr { git reset $args }
 function gst { git stash $args }
-function gstp { git statsh pop }
+function gstp { git stash pop }
 function gd { git diff $args }
 Remove-Item Alias:gl -Force
 function gl {
