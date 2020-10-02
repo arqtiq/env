@@ -39,7 +39,10 @@ function Use-Theme {
 
     # find terminal package
     $term = Resolve-Path ($env:LOCALAPPDATA + "/Packages/Microsoft.WindowsTerminal*")
-    if ($term -eq $null) {
+    if ($term -is [array]) {
+        $term = $term[0]
+    }
+    elseif ($term -eq $null) {
         Write-Host "Can't locate WinsowsTerminal package" -Fore Red
         return
     }
