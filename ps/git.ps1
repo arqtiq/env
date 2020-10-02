@@ -84,3 +84,4 @@ function gl {
 	param([int] $l=1)
 	git log ("-"+($l -as [string]))
 }
+function cdgr { cd (git rev-parse --show-toplevel) }
