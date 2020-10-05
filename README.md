@@ -1,13 +1,14 @@
 # env
 Scripts to deploy my dev env
 
-https://github.com/powerline/fonts \
-https://github.com/felixse/FluentTerminal/releases \
-https://github.com/ppadial/winfetch \
-https://github.com/JanDeDobbeleer/oh-my-posh \
+## todo
 
-get latest release \
-https://gist.github.com/f3l3gy/0e89dde158dde024959e36e915abf6bd
+PS Object Manager
+WT-* functions with dedicated ps1 file for windows terminal (set font ...)
+Handle prompt parts removal
+Use consts for all colors
+
+## notes
 
 dev mode \
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowDevelopmentWithoutDevLicense" /d "1"

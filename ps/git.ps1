@@ -29,19 +29,30 @@ function write_git_status {
     Write-Host "$or $bri $br $s" -NoNewline -Fore $CO_PR_GIT_FORE -Back $CO_PR_GIT_BACK
 
     if ($changes) {
-        $A = $B = $C = $E = $F = $G = 0
+        $A = $B = $C = $D = $E = $F = $G = $H = 0
         for ($i = 1; $i -lt $sta.Length; $i++) {
             $l = $sta[$i].SubString(0, 2)
             if ($l[0] -eq "M")      { $B++ }
             elseif ($l[0] -eq "R")  { $B++ }
             elseif ($l[0] -eq "A")  { $A++ }
             elseif ($l[0] -eq "D")  { $C++ }
+            elseif ($l[0] -eq "U")  { $D++ }
             if ($l[1] -eq "M")      { $F++ }
             elseif ($l[1] -eq "R")  { $F++ }
             elseif ($l[1] -eq "D")  { $G++ }
+            elseif ($l[1] -eq "U")  { $H++ }
             if ($l -eq "??")        { $E++ }
         }
-        Write-Host " +$A ~$B -$C | +$E ~$F -$G" -NoNewline -Fore $CO_PR_GIT_FORE -Back $CO_PR_GIT_BACK
+
+        $txt = " +$A ~$B -$C "
+        if ($D -gt 0) {
+            $txt += "!$D"
+        }
+        $txt += "| +$E ~$F -$G "
+        if ($H -gt 0) {
+            $txt += "!$H"
+        }
+        Write-Host $txt -NoNewline -Fore $CO_PR_GIT_FORE -Back $CO_PR_GIT_BACK
     }
 }
 
