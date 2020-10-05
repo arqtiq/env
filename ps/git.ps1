@@ -96,3 +96,4 @@ function gl {
 	git log ("-"+($l -as [string]))
 }
 function cdgr { cd (git rev-parse --show-toplevel) }
+function gurl { start (git config --get remote.origin.url) }

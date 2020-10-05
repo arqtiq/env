@@ -64,3 +64,9 @@ function Watch-Path {
     
     while ($true) {sleep 5}
 }
+
+function Random-Color {
+  param([int] $seed=0)
+  $hx = Get-Random -Maximum 0xFFFFFF -SetSeed $seed
+  return "#{0:X6}" -f $hx
+}

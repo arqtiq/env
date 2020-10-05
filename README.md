@@ -1,12 +1,12 @@
 # env
-Scripts to deploy my dev env
 
 ## todo
 
-PS Object Manager
-WT-* functions with dedicated ps1 file for windows terminal (set font ...)
-Handle prompt parts removal
-Use consts for all colors
+PS Object Manager \
+WT-* functions with dedicated ps1 file for windows terminal (set font ...) \
+Handle prompt parts removal \
+Use consts for all colors \
+Multiline prompt option
 
 ## notes
 
