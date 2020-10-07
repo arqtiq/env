@@ -89,7 +89,16 @@ function gaa { ga -A }
 function gr { git reset $args }
 function gst { git stash $args }
 function gstp { git stash pop }
-function gd { git diff $args }
+function gd {
+	param([string] $path,
+		  [switch] $h)
+  	if ($h) {
+  		git diff $path
+  	}
+  	else {
+  		git diff HEAD $path
+  	}
+}
 Remove-Item Alias:gl -Force
 function gl {
 	param([int] $l=1)
