@@ -29,7 +29,7 @@ if($step -eq "all" -or $step -eq "profile") {
 	$core = $cwd + "/ps/core.ps1"
 	(". " + $core) >> ($target + "Microsoft.PowerShell_profile.ps1")
 	# add vscode profile
-	('. $' + "PSScriptRoot/Microsoft.PowerShell_profile.ps1") >> ($target + "Microsoft.PowerShell_VSCode_profile.ps1")
+	('. $' + "PSScriptRoot/Microsoft.PowerShell_profile.ps1") >> ($target + "Microsoft.VSCode_profile.ps1")
 }
 
 # install font
