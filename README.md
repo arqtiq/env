@@ -6,7 +6,8 @@ PS Object Manager \
 WT-* functions with dedicated ps1 file for windows terminal (set font ...) \
 Handle prompt parts removal \
 Use consts for all colors \
-Multiline prompt option
+Multiline prompt option \
+Copy WT settings file
 
 ## notes
 
