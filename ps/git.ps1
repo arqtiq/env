@@ -11,7 +11,7 @@ function write_git_status {
         return
     }
     $o = (git config --get remote.origin.url)
-    $or = if($o.Contains("github")) { $IC_GIT_HUB_LOGO } else { $IC_GIT_LOGO }
+    $or = if($o.Contains("github")) { $IC_GIT_HUB_LOGO } elseif($o.Contains("bitbucket")) { $IC_GIT_BITBUCKET_LOGO } else { $IC_GIT_LAB_LOGO }
     $sta = (git status --porcelain -b -u)
     $changes = $sta -is [array]
     $header = if($changes) {$sta[0]} else {$sta}

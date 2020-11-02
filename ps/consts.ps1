@@ -13,7 +13,7 @@ $IC_DIR_LOGO                =   $([char]61564)
 $IC_TERMINAL_LOGO           =   $([char]62601)
 $IC_HDD_LOGO                =   $([char]63433)
 
-$IC_GIT_LOGO                =   $([char]61907)
+$IC_GIT_LAB_LOGO            =   $([char]62102)
 $IC_GIT_HUB_LOGO            =   $([char]63395)
 $IC_GIT_BITBUCKET_LOGO      =   $([char]59139)
 $IC_GIT_STATUS_AHEAD        =   $([char]8593)

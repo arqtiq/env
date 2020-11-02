@@ -70,3 +70,9 @@ function Random-Color {
   $hx = Get-Random -Maximum 0xFFFFFF -SetSeed $seed
   return "#{0:X6}" -f $hx
 }
+
+function Unicode-Char {
+  param ([string] $id)
+  $i = [convert]::toint32($id, 16)
+  Write-Host "$([char]$i) - $i"
+}

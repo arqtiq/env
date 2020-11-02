@@ -94,6 +94,11 @@ function prompt {
 		}
 	}
 
+	# rez
+	if($env:REZ_USED_REQUEST) {
+		Write-Host -NoNewline " [ $env:REZ_USED_REQUEST ]"
+	}
+
 	# prompt line
 	Write-Host ""
 	Write-Host "$IC_TERMINAL_LOGO " -NoNewline -Fore White

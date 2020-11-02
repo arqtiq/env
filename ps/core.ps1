@@ -13,12 +13,6 @@ New-Alias grep findstr
 function Last-Error { $error[0].Exception.ToString() }
 function List-Env {	gci env:* }
 
-function Unicode-Char {
-	param ([string] $id)
-	$i = [convert]::toint32($id, 16)
-	Write-Host "$([char]$i) - $i"
-}
-
 function forest {
 	param ([int] $c=20)
 	for($i=0; $i -lt $c; $i+=1) {
