@@ -2,7 +2,7 @@
 $step = $args[0].Trim("-")
 if ($step -eq "help") {
 	Write-Host "profile > PowerShell Profile"
-	Write-Host "wts > WT Settings"
+	Write-Host "wt > Windows Terminal profile files"
 	Write-Host "font > FiraCode NF Font"
 	Write-Host "ext > PowerShell Extensions"
 	exit
@@ -46,15 +46,15 @@ if ($step -eq "all" -or $step -eq "ext") {
 }
 
 # install WT settings
-if ($step -eq "all" -or $step -eq "wts") {
+if ($step -eq "all" -or $step -eq "wt") {
 	. ($cwd + "\ps\utils.ps1")
 	if (-not (Is-Defined WT-GetSettingsPath)) {
 		. ($cwd + "\ps\wt.ps1")
 	}
-	$target = WT-GetSettingsPath
-	$source = $cwd + "\settings.json"
-	Copy-Item -Path $source -Destination $target
+	$target = (WT-GetPackageRoot).ToString() + "/LocalState"
+	$source = $cwd + "\wt\*"
+	Copy-Item -Force -Recurse -Path $source -Destination $target
 }
 
 # clean /tmp
-#ri -Force -Recurse ./tmp
+ri -Force -Recurse ./tmp

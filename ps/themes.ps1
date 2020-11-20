@@ -124,6 +124,5 @@ function Use-Theme {
     }
 
     # save back settings
-    $settings = WT-GetSettingsPath
-    $settingsJson | ConvertTo-Json | Out-File $settings -Encoding ASCII
+    WT-SaveSettings $settingsJson
 }

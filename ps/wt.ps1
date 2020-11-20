@@ -1,5 +1,5 @@
 
-function WT-GetSettingsPath {
+function WT-GetPackageRoot {
     $term = Resolve-Path ($env:LOCALAPPDATA + "/Packages/Microsoft.WindowsTerminal*")
     if ($term -is [array]) {
         $term = $term[0]
@@ -8,7 +8,12 @@ function WT-GetSettingsPath {
         Write-Host "Can't locate WinsowsTerminal package" -Fore Red
         return $null
     }
-    $settings = $term.ToString() + "/LocalState/settings.json"
+    return $term
+}
+
+function WT-GetSettingsPath {
+    $root = WT-GetPackageRoot
+    $settings = $root.ToString() + "/LocalState/settings.json"
     return $settings
 }
 
@@ -27,4 +32,10 @@ function WT-LoadSettings {
     }
     $settingsJson = ($settingsJson -join "`n") | ConvertFrom-Json
     return $settingsJson
+}
+
+function WT-SaveSettings {
+    param([object] $json)
+    $settings = WT-GetSettingsPath
+    $json | ConvertTo-Json -Depth 10 | Out-File $settings -Encoding ASCII
 }
