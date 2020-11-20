@@ -7,7 +7,9 @@ WT-* functions with dedicated ps1 file for windows terminal (set font ...) \
 Handle prompt parts removal \
 Use consts for all colors \
 Multiline prompt option \
-Copy WT settings file
+Copy WT settings file \
+Improved cli c/c (list/append/... icons) \
+CLI explorer
 
 ## notes
 

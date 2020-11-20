@@ -56,8 +56,6 @@ function write_git_status {
     }
 }
 
-
-
 function gs { git status -sb }
 function gsu { git status -sb -u }
 function gf { git fetch }
@@ -76,7 +74,11 @@ function gcom {
 }
 Remove-Item Alias:gcb -Force
 function gcb {
-    param([switch] $p)
+    param([switch] $p,
+          [switch] $m)
+    if ($m) {
+        gcm
+    }
     git checkout -b $args
     if ($p) {
         git push --set-upstream origin $args

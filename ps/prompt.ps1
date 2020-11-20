@@ -96,7 +96,7 @@ function prompt {
 
 	# rez
 	if($env:REZ_USED_REQUEST) {
-		Write-Host -NoNewline " [ $env:REZ_USED_REQUEST ]"
+		Write-Host -NoNewline " $([char]63036) $env:REZ_USED_REQUEST $([char]63037)"
 	}
 
 	# prompt line

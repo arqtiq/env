@@ -2,6 +2,7 @@
 $step = $args[0].Trim("-")
 if($step -eq "help") {
 	Write-Host "profile > PowerShell Profile"
+	Write-Host "wts > WT Settings"
 	Write-Host "font > FiraCode NF Font"
 	Write-Host "ext > PowerShell Extensions"
     exit
@@ -42,6 +43,11 @@ if($step -eq "all" -or $step -eq "ext") {
 	if(-not(Get-InstalledModule SQLServer -ErrorAction silentlycontinue)) {
     	Install-Module PSBookmark -Confirm:$False -Force
 	}
+}
+
+# install WT settings
+if($step -eq "all" -or $step -eq "wts") {
+	
 }
 
 # clean /tmp
