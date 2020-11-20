@@ -69,10 +69,30 @@ function Random-Color {
   return "#{0:X6}" -f $hx
 }
 
+function Last-Error {
+  $error[0].Exception.ToString()
+}
+
+function List-Env {
+  Get-ChildItem env:*
+}
+
 function Unicode-Char {
   param ([string] $id)
   $i = [convert]::toint32($id, 16)
   Write-Host "$([char]$i) - $i"
+}
+
+function Add-To-Path {
+  param ([string]$addPath)
+  if (Test-Path $addPath) {
+    $regexAddPath = [regex]::Escape($addPath)
+    $arrPath = $env:Path -split ';' | Where-Object { $_ -notMatch "^$regexAddPath\\?" }
+    $env:Path = ($arrPath + $addPath) -join ';'
+  }
+  else {
+    Throw "'$addPath' is not a valid path."
+  }
 }
 
 function Is-Defined {

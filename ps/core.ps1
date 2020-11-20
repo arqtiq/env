@@ -11,8 +11,32 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 New-Alias grep findstr
 
-function Last-Error { $error[0].Exception.ToString() }
-function List-Env {	gci env:* }
+$shell = [PSCustomObject] @{
+	Git             = [PSCustomObject] @{
+		Enabled      = $true
+		BranchInfo   = $true
+		TrackingInfo = $true
+	}
+	Time            = [PSCustomObject] @{
+		Enabled  = $true
+		Format24 = $true
+	}
+	Host            = [PSCustomObject] @{
+		Enabled     = $true
+		UserName    = $true
+		MachineName = $true
+		PSVersion   = $true
+	}
+	Path            = [PSCustomObject] @{
+		Enabled = $true
+	}
+	Dir             = [PSCustomObject] @{
+		Enabled = $true
+		Count   = $true
+		Flags   = $true
+	}
+	MultilinePrompt = $true
+}
 
 function forest {
 	param ([int] $c = 20)
@@ -42,16 +66,4 @@ function pastefile {
 	}
 
 	Copy-Item -Path $global:_cpy -Destination $dest
-}
-
-function Add-To-Path {
-	param ([string]$addPath)
-	if (Test-Path $addPath) {
-		$regexAddPath = [regex]::Escape($addPath)
-		$arrPath = $env:Path -split ';' | Where-Object { $_ -notMatch "^$regexAddPath\\?" }
-		$env:Path = ($arrPath + $addPath) -join ';'
-	}
-	else {
-		Throw "'$addPath' is not a valid path."
-	}
 }
