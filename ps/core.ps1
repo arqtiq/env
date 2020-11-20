@@ -2,6 +2,7 @@
 . $PSScriptRoot/utils.ps1
 . $PSScriptRoot/git.ps1
 . $PSScriptRoot/prompt.ps1
+. $PSScriptRoot/wt.ps1
 . $PSScriptRoot/themes.ps1
 
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
@@ -14,8 +15,8 @@ function Last-Error { $error[0].Exception.ToString() }
 function List-Env {	gci env:* }
 
 function forest {
-	param ([int] $c=20)
-	for($i=0; $i -lt $c; $i+=1) {
+	param ([int] $c = 20)
+	for ($i = 0; $i -lt $c; $i += 1) {
 		Write-Host "$([char]61883) " -NoNewLine -Fore DarkGreen
 	}
 }
@@ -31,7 +32,7 @@ function pastefile {
 		[switch] $f,
 		[string] $n = $null
 	)
-	if ($global:_cpy -eq $null) {
+	if ($null -eq $global:_cpy) {
 		Write-Host "No file to paste" -Fore Red
 		return
 	}
@@ -45,12 +46,12 @@ function pastefile {
 
 function Add-To-Path {
 	param ([string]$addPath)
-    if (Test-Path $addPath) {
-        $regexAddPath = [regex]::Escape($addPath)
-        $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
-        $env:Path = ($arrPath + $addPath) -join ';'
-    }
-    else {
-        Throw "'$addPath' is not a valid path."
-    }
+	if (Test-Path $addPath) {
+		$regexAddPath = [regex]::Escape($addPath)
+		$arrPath = $env:Path -split ';' | Where-Object { $_ -notMatch "^$regexAddPath\\?" }
+		$env:Path = ($arrPath + $addPath) -join ';'
+	}
+	else {
+		Throw "'$addPath' is not a valid path."
+	}
 }
