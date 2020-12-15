@@ -73,9 +73,13 @@ function gcom {
 Remove-Item Alias:gcb -Force
 function gcb {
     param([switch] $p,
-        [switch] $m)
+        [switch] $m,
+        [switch] $l)
     if ($m) {
         gcm
+        if ($m) {
+            gp
+        }
     }
     git checkout -b $args
     if ($p) {
@@ -106,3 +110,8 @@ function gl {
 }
 function cdgr { cd (git rev-parse --show-toplevel) }
 function gurl { start (git config --get remote.origin.url) }
+function gref { git reflog }
+function gcu {
+    gf
+    git merge origin/master
+}
