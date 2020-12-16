@@ -112,6 +112,12 @@ function cdgr { cd (git rev-parse --show-toplevel) }
 function gurl { start (git config --get remote.origin.url) }
 function gref { git reflog }
 function gcu {
+    param([switch] $s)
     gf
-    git merge origin/master
+    if ($s) {
+        git merge --squash origin/master
+    }
+    else {
+        git merge origin/master
+    }
 }
