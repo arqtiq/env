@@ -81,8 +81,8 @@ function prompt {
 	# dirs / file
 	if ($shell.Dir.Enabled) {
 		$dropbox = $p.Contains("Dropbox")
-		$dc = (Get-ChildItem -Directory).Length
-		$fc = (Get-ChildItem -File).Length
+		$dc = @(Get-ChildItem -Directory).Length
+		$fc = @(Get-ChildItem -File).Length
 		$dir = if ($dropbox) { $IC_DROPBOX_LOGO } else { $IC_DIR_LOGO }
 		Write-Host "$dir " -NoNewline -Fore Black -Back Yellow
 		Write-Host "$dc" -NoNewline -Fore Black -Back Yellow
