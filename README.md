@@ -2,10 +2,9 @@
 
 ## todo
 
-PS Object Manager \
+PS Object - > class
 Handle prompt parts removal \
 Use consts for all colors \
-Multiline prompt option \
 Improved cli c/c (list/append/... icons) \
 CLI explorer
 
