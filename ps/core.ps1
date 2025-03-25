@@ -35,7 +35,7 @@ $shell = [PSCustomObject] @{
 		Count   = $true
 		Flags   = $true
 	}
-	MultilinePrompt = $true
+	MultilinePrompt = $false
 }
 
 function forest {

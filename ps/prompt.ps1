@@ -24,7 +24,7 @@ function prompt {
 	# host
 	if ($shell.Host.Enabled) {
 		if ($null -ne $lastColor) {
-			Write-Host "$IC_TRIANGLE_BR " -NoNewLine -Fore $CO_PR_HOST_BACK
+			Write-Host "$IC_TRIANGLE_BR" -NoNewLine -Fore $CO_PR_HOST_BACK
 		}
 		Write-Host "$env:USERNAME $IC_WIN_LOGO $env:COMPUTERNAME" -NoNewline -Fore $CO_PR_HOST_FORE -Back $CO_PR_HOST_BACK
 
@@ -42,7 +42,7 @@ function prompt {
 
 	# cwd
 	$dc = if ($hs) { "White" } else { "Green" }
-	Write-Host "$IC_TRIANGLE_BR " -NoNewLine -Fore $dc
+	Write-Host "$IC_TRIANGLE_BR" -NoNewLine -Fore $dc
 	Write-Host $p[0] -NoNewline -Fore Black -Back $dc
 
 	if ($p.Count -eq 1) {
@@ -101,11 +101,6 @@ function prompt {
 			Write-Host $IC_ARROW_FILL_RIGHT -NoNewline -Fore Yellow
 			Write-Host $IC_ARROW_RIGHT -NoNewline -Fore Yellow
 		}
-	}
-
-	# rez
-	if ($env:REZ_USED_REQUEST) {
-		Write-Host -NoNewline " $([char]63036) $env:REZ_USED_REQUEST $([char]63037)"
 	}
 
 	# prompt line
