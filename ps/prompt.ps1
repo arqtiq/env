@@ -1,5 +1,6 @@
 function prompt {
-	$cwd = [string](Get-Location) -replace [Regex]::Escape($HOME), "~"
+    $cwd = (Get-Location).Path -replace [Regex]::Escape("Microsoft.PowerShell.Core\FileSystem::"), ""
+	$cwd = $cwd -replace [Regex]::Escape($HOME), "~"
 	$p = $cwd.Split("\\").Where( { "" -ne $_ })
 	$hs = $p[0] -eq "~"
 	$lastColor = $null
